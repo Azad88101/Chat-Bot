@@ -155,29 +155,110 @@ const ChatBot = ({ genRes }) => {
     }
   }, [conversation]);
 
-  const formatResponse = (response) => {
-    return response
-      .replace(
-        /##(.*?)\n/g,
-        `<p class='text-xl sm:text-2xl md:text-3xl font-["Crossed"] font-extrabold mb-2' style='color:#1D1D1B'>$1</p>`
-      )
-      .replace(
-        /\*\*(.*?)\*\*/g,
-        `<h1 class='font-["Crossed"] text-sm sm:text-base md:text-lg font-bold mt-4' style='color:#333333'>$1</h1>`
-      )
-      .replace(
-        /^\*(.*?)$/gm,
-        `<p class='text-xs sm:text-sm font-thin ml-4' style='color:#555555'>$1</p>`
-      )
-      .replace(
-        /\*(.*?)\n/g,
-        `<p class='text-xs sm:text-sm font-thin ml-4' style='color:#555555'>$1</p>`
-      )
-      .replace(
-        /```javascript(.*?)```/gs,
-        `<div class='mt-4 overflow-x-auto'><pre class='p-2 sm:p-4 bg-gray-900 rounded-lg text-xs sm:text-sm'><code class='language-javascript'>$1</code></pre></div>`
-      );
-  };
+  // const formatResponse = (response) => {
+  //   response = response.replace(
+  //     /##(.*?)\n/g,
+  //     `<p class='text-3xl font-bold mb-2'>$1</p>`
+  //   );
+  //   response = response.replace(
+  //     /\*\*(.*?)\*\*/g,
+  //     `<h1 class='text-lg font-bold mt-4'>$1</h1>`
+  //   );
+  //   response = response.replace(
+  //     /^\*(.*?)$/gm,
+  //     `<p class='text-sm font-thin ml-4'>$1</p>`
+  //   );
+  //   response = response.replace(
+  //     /\*(.*?)\n/g,
+  //     `<p class='text-sm font-thin ml-4'>$1</p>`
+  //   );
+
+  //   // Multi-line code blocks (handling all languages dynamically)
+  //   response = response.replace(
+  //     /```(\w+)\n([\s\S]*?)```/g,
+  //     `<div class='mt-4'>
+  //     <pre class='p-4 bg-gray-900 text-gray-200 rounded-lg overflow-auto'>
+  //       <code class='language-$1'>$2</code>
+  //     </pre>
+  //   </div>`
+  //   );
+
+  //   // Inline code
+  //   response = response.replace(
+  //     /`([^`]+)`/g,
+  //     `<code class='bg-gray-800 text-yellow-300 px-1 py-0.5 rounded'>$1</code>`
+  //   );
+
+  //   return response;
+  // };
+
+const formatResponse = (response) => {
+  response = response.replace(
+    /##(.*?)\n/g,
+    `<p class='text-3xl font-bold mb-2'>$1</p>`
+  );
+  response = response.replace(
+    /\*\*(.*?)\*\*/g,
+    `<h1 class='text-lg font-bold mt-4'>$1</h1>`
+  );
+  response = response.replace(
+    /^\*(.*?)$/gm,
+    `<p class='text-sm font-thin ml-4'>$1</p>`
+  );
+  response = response.replace(
+    /\*(.*?)\n/g,
+    `<p class='text-sm font-thin ml-4'>$1</p>`
+  );
+
+  // Multi-line code blocks (Python, JavaScript, C++)
+  response = response.replace(
+    /```python(.*?)```/gs,
+    `<div class='mt-4'>
+      <pre class='p-4 bg-gray-900 text-green-400 rounded-lg overflow-auto'>
+        <code class='language-python'>$1</code>
+      </pre>
+    </div>`
+  );
+
+  response = response.replace(
+    /```javascript(.*?)```/gs,
+    `<div class='mt-4'>
+      <pre class='p-4 bg-gray-900 text-blue-400 rounded-lg overflow-auto'>
+        <code class='language-javascript'>$1</code>
+      </pre>
+    </div>`
+  );
+
+  response = response.replace(
+    /```cpp(.*?)```/gs,
+    `<div class='mt-4'>
+      <pre class='p-4 bg-gray-900 text-purple-400 rounded-lg overflow-auto'>
+        <code class='language-cpp'>$1</code>
+      </pre>
+    </div>`
+  );
+
+  // Generic code block (for other languages)
+  response = response.replace(
+    /```(\w+)\n([\s\S]*?)```/g,
+    `<div class='mt-4'>
+      <pre class='p-4 bg-gray-900 text-gray-300 rounded-lg overflow-auto'>
+        <code class='language-$1'>$2</code>
+      </pre>
+    </div>`
+  );
+
+  // Inline code
+  response = response.replace(
+    /`([^`]+)`/g,
+    `<code class='bg-gray-800 text-yellow-300 px-1 py-0.5 rounded'>$1</code>`
+  );
+
+  return response;
+};
+
+
+
 
   return (
     <div className="w-full h-full flex flex-col p-2 sm:p-4 md:p-6 overflow-hidden">
